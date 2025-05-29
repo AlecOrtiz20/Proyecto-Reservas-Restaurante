@@ -11,7 +11,9 @@ import com.example.reservas.restaurante.SistemaReservasRestaurante.Models.Restau
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Repository.ClientRepository;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Repository.ReservationRepository;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Service.Admin.AdminTableRestaurantService;
+import com.example.reservas.restaurante.SistemaReservasRestaurante.Service.Mails.MailService;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Service.Validation.TableValidator;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,9 +29,10 @@ public class ClientReservationService implements ClientReservationServiceImpl {
     private final ClientRepository clientRepository;
     private final AdminTableRestaurantService tableReservate;
     private final TableValidator tableValidator;
+    private final MailService mailService;
 
     @Override
-    public void createReservation(CreateReservationDTO createReservationDTO, long clientId) {
+    public void createReservation(CreateReservationDTO createReservationDTO, long clientId, String email) throws MessagingException {
         //Se obtiene el cliente que va a hacer su reservacion
         Client client = this.clientRepository.getReferenceById(clientId);
 
@@ -55,6 +58,8 @@ public class ClientReservationService implements ClientReservationServiceImpl {
         reservation.setNumberOfPeople(createReservationDTO.getNumberOfPeople());
         reservation.setComment(createReservationDTO.getCommentReservation());
         reservation.setCreationDate(new Date());
+
+        this.mailService.sendMailClient(email, reservation.getDateAndTime().toString(), reservation.getRestaurantTableId().getLocation(), client.getFirstName(), String.valueOf(reservation.getNumberOfPeople()));
 
         //Se guarda la reservacion
         this.reservationRepository.save(reservation);

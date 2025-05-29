@@ -29,7 +29,7 @@ public class ClientReservationController {
 
             Credentials credentialsClient = this.currentClientService.getCurrentUser();
 
-            this.clientReservationService.createReservation(createReservationDTO, credentialsClient.getIdClient().getId());
+            this.clientReservationService.createReservation(createReservationDTO, credentialsClient.getIdClient().getId(), credentialsClient.getEmail());
 
             return ResponseEntity.ok(Map.of("Message",  "La reservacion fue hecha con exito"));
 

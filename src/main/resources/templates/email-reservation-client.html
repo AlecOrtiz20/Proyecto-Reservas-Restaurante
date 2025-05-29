@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <div class="container">
+        <div class="header">
+            <h1>¡Reserva Confirmada!</h1>
+        </div>
+
+        <p>Hola, <strong th:text="${clientName}"> </strong></p>
+        <p>Tu reserva en está confirmada:</p>
+
+        <ul>
+            <li>📅 Fecha: <strong th:text="${reservtionDate}"></strong ></li>
+            <li>🥄 Ubicacion Mesa: <strong th:text="${location}"></strong></li>
+            <li>👥 Personas: <strong th:text="${numberOfPeople}"></strong></li>
+        </ul>
+
+        <div class="footer">
+            <p>¿Necesitas ayuda? Contacta al: 099-99-34-94</p>
+            <p>© Todos los derechos reservados.</p>
+        </div>
+    </div>
+
+</body>
+</html>
