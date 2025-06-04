@@ -1,6 +1,6 @@
 package com.example.reservas.restaurante.SistemaReservasRestaurante.Service.Admin;
 
-import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClientDTO;
+import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClentDTO.ClientDTO;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClientFilterDTO;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.Filter.ClientSpecifications;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Enum.ClientStatus;

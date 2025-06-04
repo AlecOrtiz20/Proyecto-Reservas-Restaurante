@@ -53,7 +53,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/authpublic/**").permitAll()
                         .requestMatchers("/api/client/reservation/**").hasRole("USER")
-                        .requestMatchers("/api/admin/table/**", "/api/admin/reservation/**").hasRole("ADMIN")
+                        .requestMatchers("/api/admin/table/**", "/api/admin/reservation/**", "/api/auth/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())

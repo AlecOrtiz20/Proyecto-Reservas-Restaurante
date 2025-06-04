@@ -3,6 +3,7 @@ package com.example.reservas.restaurante.SistemaReservasRestaurante.Service.Clie
 import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClentDTO.CreateReservationDTO;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClentDTO.ShowReservationDTO;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Enum.ReservationStatus;
+import com.example.reservas.restaurante.SistemaReservasRestaurante.Exceptions.ReservationNotFoundException;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Exceptions.TableUnavailableException;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Impl.ClientsImpl.ClientReservationServiceImpl;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Models.Client;
@@ -18,6 +19,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
@@ -32,12 +34,17 @@ public class ClientReservationService implements ClientReservationServiceImpl {
     private final MailService mailService;
 
     @Override
+    @Transactional
     public void createReservation(CreateReservationDTO createReservationDTO, long clientId, String email) throws MessagingException {
         //Se obtiene el cliente que va a hacer su reservacion
         Client client = this.clientRepository.getReferenceById(clientId);
 
         //Se obtiene la mesa la cual se va a reservar
         RestaurantTable restaurantTable = this.tableReservate.getById(createReservationDTO.getTableReservationId());
+
+        if (reservationRepository.hasActiveReservation(client.getId())){
+            throw new ReservationNotFoundException("Ya tiene una reservacion activa");
+        }
 
         //Se valida que la mesa a reservar no este ocupada o enlimpieza
         if (!tableValidator.validateTable(restaurantTable)){
@@ -54,6 +61,7 @@ public class ClientReservationService implements ClientReservationServiceImpl {
         Reservation reservation = new Reservation();
         reservation.setClientId(client);
         reservation.setRestaurantTableId(restaurantTable);
+        reservation.setDateAndTime(createReservationDTO.getDateAndTimeReservation());
         reservation.setReservationStatus(ReservationStatus.PENDING);
         reservation.setNumberOfPeople(createReservationDTO.getNumberOfPeople());
         reservation.setComment(createReservationDTO.getCommentReservation());

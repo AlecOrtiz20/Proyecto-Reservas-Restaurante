@@ -1,4 +1,4 @@
-package com.example.reservas.restaurante.SistemaReservasRestaurante.DTo;
+package com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.Admin;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Setter
 @Getter
-public class ClientDTO {
+public class AdminDTO {
 
     private String firstName;
     private String lastName;

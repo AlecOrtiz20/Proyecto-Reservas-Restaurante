@@ -1,6 +1,6 @@
 package com.example.reservas.restaurante.SistemaReservasRestaurante.Impl.AdminImpl;
 
-import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClientDTO;
+import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClentDTO.ClientDTO;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.DTo.ClientFilterDTO;
 import com.example.reservas.restaurante.SistemaReservasRestaurante.Models.Client;
 import org.springframework.data.domain.Page;
